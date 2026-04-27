@@ -1,0 +1,62 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model Photo {
+    id String @id @default(cuid())
+    slug String
+    title String
+    imageUrl String
+    width Int?
+    height Int?
+    createdAt DateTime @default(now())
+
+    characters Character[]
+    sessions GameSession[]
+}
+
+model Character {
+    id String @id @default(cuid())
+    photoId String
+    photo Photo @relation(fields: [photoId], references: [id], onDelete: Cascade)
+
+    name String
+    xNorm Float
+    yNorm Float
+    radiusNorm Float @default(0.03)
+
+    foundIn SessionCharacter[]
+    @@index([photoId])
+}
+
+model GameSession {
+    id String @id @default(cuid())
+    photoId String
+    photo Photo @relation(fields: [photoId], references: [id], onDelete: Cascade)
+
+    sessionToken String @unique
+    startedAt DateTime @default(now())
+    completeAt DateTime?
+    scoreMs Int?
+    playerName String?
+
+    foundChars SessionCharacter[]
+
+    @@index([photoId])
+    @@index([sessionToken])
+}
+
+model SessionCharacter {
+    sessionId String
+    characterId String
+
+    session GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+    foundAt DateTime @default(now())
+    @@id([sessionId, characterId])
+}
