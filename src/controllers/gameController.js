@@ -232,7 +232,7 @@ async function validateGuess(req, res) {
                 where: { photoId }
             });
 
-            const foundCharacters = await texx.sessionCharacter.count({
+            const foundCharacters = await tx.sessionCharacter.count({
                 where: { sessionId: session.id }
             });
 
@@ -324,7 +324,7 @@ async function highScores(req, res) {
             where.photoId = photoId;
         }
 
-        const score = await prisma.gameSession.findMany({
+        const scores = await prisma.gameSession.findMany({
             where,
             orderBy: [
                 { scoreMs: "asc" },

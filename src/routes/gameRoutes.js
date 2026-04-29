@@ -12,4 +12,4 @@ router.post("/sessions/finish", controller.finishSession);
 
 router.get("/high-scores", controller.highScores);
 
-modules.exports = router;
+module.exports = router;

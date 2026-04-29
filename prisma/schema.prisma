@@ -8,7 +8,7 @@ datasource db {
 
 model Photo {
     id String @id @default(cuid())
-    slug String
+    slug String @unique
     title String
     imageUrl String
     width Int?
@@ -31,6 +31,7 @@ model Character {
 
     foundIn SessionCharacter[]
     @@index([photoId])
+    @@unique([photoId, name])
 }
 
 model GameSession {
@@ -40,9 +41,9 @@ model GameSession {
 
     sessionToken String @unique
     startedAt DateTime @default(now())
-    completeAt DateTime?
+    completedAt DateTime?
     scoreMs Int?
-    playerName String?
+    playerName String? @db.VarChar(50)
 
     foundChars SessionCharacter[]
 
