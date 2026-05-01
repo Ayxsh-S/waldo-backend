@@ -142,7 +142,7 @@ async function main() {
             },
             {
                 photoId: scene1.id,
-                name: "Wilma",
+                name: "Wenda",
                 xNorm: 0.892, 
                 yNorm: 0.683, 
                 radiusNorm: 0.03
